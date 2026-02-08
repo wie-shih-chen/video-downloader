@@ -164,6 +164,17 @@ document.addEventListener('DOMContentLoaded', function () {
         if (task.status === 'finished') {
             mainProgress.style.width = '100%';
             statusText.textContent = '下載完成 ✅';
+
+            // Auto-trigger browser download
+            if (task.filename) {
+                showStatus('正在傳送檔案至您的電腦...', 'success');
+                const link = document.createElement('a');
+                link.href = `/download/api/files/download/${encodeURIComponent(task.filename)}`;
+                link.download = task.filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
         } else if (task.status === 'error') {
             mainProgress.style.background = '#e53e3e';
             statusText.textContent = '發生錯誤 ❌';
