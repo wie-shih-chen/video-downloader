@@ -11,8 +11,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    {% block styles %}{% endblock %}
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/downloader.css') }}">
+    {% block extra_css %}{% endblock %}
 
     <style>
         /* Standalone overrides */
