@@ -35,10 +35,10 @@ class DownloadManager:
             "no_warnings": True,
             "socket_timeout": 10,
             "force_ipv4": True,
-            # Client Spoofing (Web Safari)
+            # Client Spoofing (Smart TV)
             "extractor_args": {
                 "youtube": {
-                    "player_client": ["web_safari"]
+                    "player_client": ["tv"]
                 }
             },
         }
@@ -78,7 +78,7 @@ class DownloadManager:
             "force_ipv4": True,
             "extractor_args": {
                 "youtube": {
-                    "player_client": ["web_safari"]
+                    "player_client": ["tv"]
                 }
             },
         }

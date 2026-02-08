@@ -106,8 +106,8 @@ def stream_download():
         cmd.extend(['--cookies', cookie_file])
     
     
-    # Client Spoofing (Web Safari) as per search suggestions for datacenter workaround
-    cmd.extend(['--extractor-args', 'youtube:player_client=web_safari'])
+    # Client Spoofing (Smart TV) - often has lower security thresholds
+    cmd.extend(['--extractor-args', 'youtube:player_client=tv'])
 
     if format_type == 'mp3':
         cmd.extend(['-x', '--audio-format', 'mp3'])
