@@ -75,9 +75,6 @@ class DownloadManager:
         ydl_opts = {
             'outtmpl': os.path.join(self.download_path, '%(title)s.%(ext)s'),
             'progress_hooks': [lambda d: self._progress_hook(download_id, d)],
-        ydl_opts = {
-            'outtmpl': os.path.join(self.download_path, '%(title)s.%(ext)s'),
-            'progress_hooks': [lambda d: self._progress_hook(download_id, d)],
             'nocheckcertificate': True,
             "force_ipv4": True,
             "extractor_args": {
