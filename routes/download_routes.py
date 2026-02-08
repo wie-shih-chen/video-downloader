@@ -143,5 +143,19 @@ def stream_download():
         process.wait()
 
     response = Response(stream_with_context(generate()), mimetype=mimetype)
-    response.headers.set('Content-Disposition', 'attachment', filename=filename)
+    
+    # Fix UnicodeEncodeError by using RFC 6266 compliant header
+    from urllib.parse import quote
+    try:
+        filename.encode('latin-1')
+        # If it fits in latin-1 (e.g. English), use it directly
+        response.headers.set('Content-Disposition', 'attachment', filename=filename)
+    except UnicodeEncodeError:
+        # If it contains non-latin-1 chars (e.g. Chinese), use filename*
+        # Fallback ASCII name
+        safe_filename = 'video.' + ext
+        # URL encoded utf-8 name
+        encoded_filename = quote(filename)
+        response.headers.set('Content-Disposition', f'attachment; filename="{safe_filename}"; filename*=UTF-8\'\'{encoded_filename}')
+    
     return response
