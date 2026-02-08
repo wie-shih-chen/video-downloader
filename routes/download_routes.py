@@ -105,8 +105,10 @@ def stream_download():
     if os.path.exists(cookie_file):
         cmd.extend(['--cookies', cookie_file])
     
+    
     # Client Spoofing (Android) as per Issue #12045 workaround suggestions
-    cmd.extend(['--extractor-args', 'youtube:player_client=android'])
+    # Also skip webpage to reduce browser-like footprint
+    cmd.extend(['--extractor-args', 'youtube:player_client=android,web;player_skip=webpage,configs'])
 
     if format_type == 'mp3':
         cmd.extend(['-x', '--audio-format', 'mp3'])

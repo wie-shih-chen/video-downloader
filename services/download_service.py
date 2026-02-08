@@ -35,8 +35,13 @@ class DownloadManager:
             "no_warnings": True,
             "socket_timeout": 10,
             "force_ipv4": True,
-            # Client Spoofing (Android)
-            "extractor_args": {"youtube": {"player_client": ["android"]}},
+            # Client Spoofing (Android + Skip Webpage)
+            "extractor_args": {
+                "youtube": {
+                    "player_client": ["android", "web"],
+                    "player_skip": ["webpage", "configs"]
+                }
+            },
         }
         
         if os.environ.get('http_proxy'):
@@ -75,7 +80,12 @@ class DownloadManager:
             'progress_hooks': [lambda d: self._progress_hook(download_id, d)],
             'nocheckcertificate': True,
             "force_ipv4": True,
-            "extractor_args": {"youtube": {"player_client": ["android"]}},
+            "extractor_args": {
+                "youtube": {
+                    "player_client": ["android", "web"],
+                    "player_skip": ["webpage", "configs"]
+                }
+            },
         }
         
         if os.environ.get('http_proxy'):
