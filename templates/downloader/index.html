@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}YouTube 下載器 - 工具箱 Web{% endblock %}
+{% block page_title %}YouTube 下載器 Pro{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/downloader.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="downloader-container">
+    <div class="left-panel">
+        <!-- Input Card -->
+        <div class="card input-card glass-premium">
+            <h3 class="panel-title"><span class="material-icons">link</span> YouTube 網址</h3>
+            <div class="input-group">
+                <input type="text" id="urlInput" placeholder="請貼上影片網址...">
+                <button class="btn btn-primary" id="previewBtn">🔍 預覽</button>
+            </div>
+        </div>
+
+
+        <!-- Options Card -->
+        <div class="card options-card glass-premium">
+            <h3 class="panel-title"><span class="material-icons">tune</span> 下載選項</h3>
+            <div class="options-wrapper">
+                <div class="format-grid">
+                    <label class="segment-item">
+                        <input type="radio" name="format" value="mp3">
+                        <div class="segment-content">
+                            <span class="material-icons">music_note</span>
+                            <span>MP3</span>
+                        </div>
+                    </label>
+                    <label class="segment-item">
+                        <input type="radio" name="format" value="mp4_480p">
+                        <div class="segment-content">
+                            <span class="material-icons">smartphone</span>
+                            <span>480p</span>
+                        </div>
+                    </label>
+                    <label class="segment-item">
+                        <input type="radio" name="format" value="mp4_720p" checked>
+                        <div class="segment-content">
+                            <span class="material-icons">hd</span>
+                            <span>720p</span>
+                        </div>
+                    </label>
+                    <label class="segment-item">
+                        <input type="radio" name="format" value="mp4_1080p">
+                        <div class="segment-content">
+                            <span class="material-icons">high_quality</span>
+                            <span>1080p</span>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="extra-switches">
+                    <label class="switch-row">
+                        <div class="switch-label">
+                            <span class="material-icons">subtitles</span>
+                            <span>下載字幕</span>
+                        </div>
+                        <input type="checkbox" id="subtitles" class="ios-switch">
+                    </label>
+                    <label class="switch-row">
+                        <div class="switch-label">
+                            <span class="material-icons">closed_caption</span>
+                            <span>內嵌字幕</span>
+                        </div>
+                        <input type="checkbox" id="embedSubtitles" class="ios-switch">
+                    </label>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Download Action -->
+        <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+            <button class="btn btn-primary btn-large" id="downloadBtn" style="flex: 2; min-width: 150px;">🚀
+                開始下載</button>
+            <button class="btn btn-glow-cyan btn-large" id="streamBtn"
+                style="flex: 1; font-size: 1rem; min-width: 120px; background: linear-gradient(135deg, #0cebeb, #20e3b2, #29ffc6);">
+                <span class="material-icons" style="vertical-align: middle;">cloud_download</span> 直接串流
+                <div class="tooltip">適用於 PythonAnywhere (直接串流)</div>
+            </button>
+            <button class="btn btn-large" id="externalBtn"
+                style="flex: 1; font-size: 1rem; min-width: 120px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none;">
+                <span class="material-icons" style="vertical-align: middle;">public</span> 強力下載
+                <div class="tooltip">使用外部 API (Cobalt) - 最穩定</div>
+            </button>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <!-- Progress Card -->
+        <div class="card progress-card glass-premium">
+            <h3 class="panel-title"><span class="material-icons">analytics</span> 下載進度</h3>
+            <div class="progress-container">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar" id="mainProgress" style="width: 0%"></div>
+                </div>
+                <div class="status-text" id="statusText">準備就緒</div>
+                <div class="stats-row">
+                    <span id="speedStat">速度: --</span>
+                    <span id="etaStat">剩餘時間: --</span>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Video Info Card -->
+        <div class="card info-card hidden glass-premium" id="videoInfoCard"
+            style="border: 1px solid var(--accent-color);">
+            <h3 class="panel-title"><span class="material-icons" style="color: var(--accent-color)">visibility</span>
+                影片資訊</h3>
+            <div class="video-info-content">
+                <img src="" alt="Thumbnail" id="videoThumb" class="video-thumb">
+                <div class="video-details">
+                    <h4 id="videoTitle" style="color: var(--accent-color); font-weight: 700;">Title</h4>
+                    <p id="videoAuthor" style="opacity: 0.8;">Author</p>
+                    <p id="videoDuration" style="font-family: monospace; font-size: 0.9rem;">Duration</p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- File List -->
+        <div class="card files-card glass-premium">
+            <div class="card-header" style="margin-bottom: 15px;">
+                <h3 class="panel-title"><span class="material-icons">history</span> 下載紀錄</h3>
+                <div class="actions">
+                    <button class="btn btn-sm btn-secondary" id="refreshFilesBtn">🔄</button>
+                </div>
+            </div>
+
+            <div class="files-list" id="filesList">
+                <!-- Files injected here -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/downloader.js') }}"></script>
+{% endblock %}
