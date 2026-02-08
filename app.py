@@ -4,6 +4,13 @@ from routes.download_routes import download_bp
 import os
 
 app = Flask(__name__)
+
+# Ensure local bin (ffmpeg) is in PATH
+base_dir = os.path.dirname(os.path.abspath(__file__))
+bin_dir = os.path.join(base_dir, 'bin')
+if os.path.exists(bin_dir):
+    os.environ['PATH'] = bin_dir + os.pathsep + os.environ.get('PATH', '')
+
 # minimal config
 app.config.from_object(Config)
 app.secret_key = os.environ.get('SECRET_KEY', 'dev-key')
