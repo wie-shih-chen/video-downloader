@@ -70,45 +70,40 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // --- 2. Start Download ---
+    // --- 2. Start Download (Direct Stream) ---
     downloadBtn.addEventListener('click', async () => {
         const url = urlInput.value.trim();
         if (!url) return;
 
         const format = document.querySelector('input[name="format"]:checked').value;
-        // Determine options based on UI
-        const options = {
-            format: format,
-            subtitles: document.getElementById('subtitles') ? document.getElementById('subtitles').checked : false,
-            embed_subs: document.getElementById('embedSubtitles') ? document.getElementById('embedSubtitles').checked : false
-        };
+        const subtitles = document.getElementById('subtitles') ? document.getElementById('subtitles').checked : false;
 
-        setLoading(true, downloadBtn);
-        downloadBtn.textContent = '🚀 請求中...';
-        showStatus('正在加入下載排程...', 'info');
+        // Build Stream URL
+        const streamUrl = `/download/api/stream?url=${encodeURIComponent(url)}&format=${format}`;
 
-        try {
-            const response = await fetch('/download/api/download', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ url: url, options: options })
-            });
+        // UI Feedback
+        downloadBtn.disabled = true;
+        downloadBtn.innerHTML = '⏳ 正在準備串流...';
+        showStatus('正在請求伺服器串流傳輸...', 'info');
+        mainProgress.style.width = '100%';
+        mainProgress.classList.add('striped-animate'); // Assuming CSS has animation
 
-            const data = await response.json();
+        // Trigger Download
+        // We use a temporary iframe or window location to start download without leaving page context if possible, 
+        // but window.location is simplest for reliable file save dialog.
+        window.location.href = streamUrl;
 
-            if (data.error) {
-                showStatus('錯誤: ' + data.error, 'error');
-                resetDownloadBtn();
-            } else {
-                showStatus('已開始下載！ID: ' + data.id, 'success');
-                startPolling(); // Start watching progress
-            }
-        } catch (error) {
-            console.error(error);
-            showStatus('下載請求失敗', 'error');
-            resetDownloadBtn();
-        }
+        // Reset UI after a short delay (since we can't track stream progress easily)
+        setTimeout(() => {
+            downloadBtn.disabled = false;
+            downloadBtn.innerHTML = '🚀 開始下載';
+            showStatus('已啟動下載！請查看瀏覽器下載管理器。', 'success');
+        }, 3000);
     });
+
+    // Legacy Polling Code Removed for Stream Mode
+    function startPolling() { }
+
 
     function resetDownloadBtn() {
         setLoading(false, downloadBtn);

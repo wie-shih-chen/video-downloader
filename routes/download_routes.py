@@ -95,9 +95,16 @@ def stream_download():
         
     cmd = ['yt-dlp', '--newline', '--force-ipv4', '-o', '-']
     
-    import os
     if os.environ.get('http_proxy'):
         cmd.extend(['--proxy', os.environ.get('http_proxy')])
+
+    # Add Cookies logic for Stream
+    from config import Config
+    cookie_file = os.path.join(Config.BASE_DIR, 'cookies.txt')
+    if os.path.exists(cookie_file):
+        cmd.extend(['--cookies', cookie_file])
+    elif not os.environ.get('RENDER'):
+        cmd.extend(['--cookies-from-browser', 'chrome'])
 
     if format_type == 'mp3':
         cmd.extend(['-x', '--audio-format', 'mp3'])
