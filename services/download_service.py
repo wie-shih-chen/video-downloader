@@ -37,9 +37,13 @@ class DownloadManager:
             "force_ipv4": True, 
         }
         
-        # Explicitly set proxy if on PythonAnywhere (or other envs)
         if os.environ.get('http_proxy'):
             ydl_opts['proxy'] = os.environ.get('http_proxy')
+            
+        # Check for cookies.txt
+        cookie_file = os.path.join(Config.BASE_DIR, 'cookies.txt')
+        if os.path.exists(cookie_file):
+            ydl_opts['cookiefile'] = cookie_file
         
         try:
             with YoutubeDL(ydl_opts) as ydl:
@@ -69,6 +73,11 @@ class DownloadManager:
         
         if os.environ.get('http_proxy'):
             ydl_opts['proxy'] = os.environ.get('http_proxy')
+            
+        # Check for cookies.txt
+        cookie_file = os.path.join(Config.BASE_DIR, 'cookies.txt')
+        if os.path.exists(cookie_file):
+            ydl_opts['cookiefile'] = cookie_file
         
         format_type = options.get('format', 'mp4_720p')
         

@@ -1,5 +1,5 @@
 Flask==3.1.2
 gunicorn==25.0.0
-yt-dlp==2026.1.31
+yt-dlp @ git+https://github.com/yt-dlp/yt-dlp.git@master
 python-dotenv==1.2.1
 requests==2.32.5
