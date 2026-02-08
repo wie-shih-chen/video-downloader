@@ -14,8 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const mainProgress = document.getElementById('mainProgress');
     const speedStat = document.getElementById('speedStat');
     const etaStat = document.getElementById('etaStat');
-    const filesList = document.getElementById('filesList');
-    const refreshFilesBtn = document.getElementById('refreshFilesBtn');
 
     let pollInterval = null;
 
@@ -180,61 +178,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // --- 4. File Management ---
-    async function refreshFiles() {
-        try {
-            const res = await fetch('/download/api/files');
-            const files = await res.json();
-            renderFiles(files);
-        } catch (e) {
-            console.error('Failed to load files', e);
-        }
-    }
-
-    function renderFiles(files) {
-        filesList.innerHTML = '';
-        if (files.length === 0) {
-            filesList.innerHTML = '<div style="padding:10px; color:#a0aec0; text-align:center;">暫無下載檔案</div>';
-            return;
-        }
-
-        files.forEach(file => {
-            const div = document.createElement('div');
-            div.className = 'file-item';
-            div.innerHTML = `
-                <div class="file-info">
-                    <div class="file-name" title="${file}">${file}</div>
-                </div>
-                <div class="file-actions">
-                    <a href="/download/api/files/download/${encodeURIComponent(file)}" class="btn-sm" title="下載此檔案" style="text-decoration:none; color:#48bb78;">
-                        <span class="material-icons">download</span>
-                    </a>
-                    <button onclick="deleteFile('${file}')" title="刪除檔案">
-                        <span class="material-icons">delete</span>
-                    </button>
-                </div>
-            `;
-            filesList.appendChild(div);
-        });
-    }
-
-    // Expose delete function globally
-    window.deleteFile = async function (filename) {
-        if (!confirm('確定要刪除這個檔案嗎？')) return;
-        try {
-            await fetch(`/download/api/files/${filename}`, { method: 'DELETE' });
-            refreshFiles();
-        } catch (e) {
-            alert('刪除失敗');
-        }
-    };
 
     if (refreshFilesBtn) {
-        refreshFilesBtn.addEventListener('click', refreshFiles);
+        // refreshFilesBtn.addEventListener('click', refreshFiles); // Removed as refreshFiles is gone
     }
 
     // Initial Load
-    refreshFiles();
+    // refreshFiles(); // Removed as refreshFiles is gone
 
     // --- Helpers ---
     function showStatus(msg, type) {
