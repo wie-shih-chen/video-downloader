@@ -35,11 +35,10 @@ class DownloadManager:
             "no_warnings": True,
             "socket_timeout": 10,
             "force_ipv4": True,
-            # Client Spoofing (Android + Skip Webpage)
+            # Client Spoofing (Web Safari)
             "extractor_args": {
                 "youtube": {
-                    "player_client": ["android", "web"],
-                    "player_skip": ["webpage", "configs"]
+                    "player_client": ["web_safari"]
                 }
             },
         }
@@ -79,8 +78,7 @@ class DownloadManager:
             "force_ipv4": True,
             "extractor_args": {
                 "youtube": {
-                    "player_client": ["android", "web"],
-                    "player_skip": ["webpage", "configs"]
+                    "player_client": ["web_safari"]
                 }
             },
         }
