@@ -104,8 +104,6 @@ def stream_download():
     cookie_file = os.path.join(Config.BASE_DIR, 'cookies.txt')
     if os.path.exists(cookie_file):
         cmd.extend(['--cookies', cookie_file])
-    elif not os.environ.get('RENDER'):
-        cmd.extend(['--cookies-from-browser', 'chrome'])
 
     if format_type == 'mp3':
         cmd.extend(['-x', '--audio-format', 'mp3'])

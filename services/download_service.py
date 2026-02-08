@@ -45,8 +45,6 @@ class DownloadManager:
         if os.path.exists(cookie_file):
             ydl_opts['cookiefile'] = cookie_file
         elif not os.environ.get('RENDER'):
-            ydl_opts['cookiesfrombrowser'] = ('chrome', )
-        elif not os.environ.get('RENDER'):
             try:
                 ydl_opts['cookiesfrombrowser'] = ('chrome', )
             except:
@@ -85,8 +83,6 @@ class DownloadManager:
         cookie_file = os.path.join(Config.BASE_DIR, 'cookies.txt')
         if os.path.exists(cookie_file):
             ydl_opts['cookiefile'] = cookie_file
-        elif not os.environ.get('RENDER'):
-            ydl_opts['cookiesfrombrowser'] = ('chrome', )
         
         format_type = options.get('format', 'mp4_720p')
         
