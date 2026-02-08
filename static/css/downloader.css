@@ -304,10 +304,9 @@ body {
     margin: 0 0 5px 0;
     font-size: 1rem;
     line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    /* Removed truncation to show full title */
+    word-break: break-word;
+    /* Ensure different languages wrap correctly */
 }
 
 .video-details p {
