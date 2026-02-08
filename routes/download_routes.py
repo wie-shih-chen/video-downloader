@@ -86,6 +86,7 @@ def stream_download():
     from flask import Response, stream_with_context
     import subprocess
     import shlex
+    import os
     
     url = request.args.get('url')
     format_type = request.args.get('format', 'best')
